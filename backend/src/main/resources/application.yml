@@ -20,11 +20,19 @@ spring:
       ddl-auto: update
     open-in-view: false
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-g8roucgnp64r37t0.us.auth0.com/
+          audiences: https://secure-customer-identity-api
+
 management:
   endpoints:
     web:
       exposure:
         include: health,info
+
   endpoint:
     health:
       probes:
