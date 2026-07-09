@@ -2,12 +2,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 import { callApi } from '../services/apiClient';
 import type { DashboardResponse } from '../types/api';
+import { getApiErrorMessage } from '../services/ApiError';
 
 export default function DashboardPage() {
     const { getAccessTokenSilently } = useAuth0();
-    
-    /**To be checked later, type should not be any
-    const [data, setData] = useState<any>(null); */
 
     const [data, setData] = useState<DashboardResponse | null>(null);
     const [error, setError] = useState('');
@@ -24,9 +22,9 @@ export default function DashboardPage() {
 
 
             setData(response);
-        } catch (err) {
-            console.error("Dashboard API Error:", err);
-            setError('Unable to load dashboard data. Check backend, Auth0 audience, or token permissions.');
+        } catch (error) {
+            console.error("Dashboard API Error:", error);
+            setError(getApiErrorMessage(error));
         }
     }
 

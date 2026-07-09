@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 import { callApi } from '../services/apiClient';
+import { getApiErrorMessage } from '../services/ApiError';
 
 export default function ProfilePage<ProfileResponse>() {
     const { user, getAccessTokenSilently } = useAuth0();
@@ -17,9 +18,9 @@ export default function ProfilePage<ProfileResponse>() {
             );
 
             setApiProfile(response);
-        } catch (err) {
-            console.error('Profile API Error:', err);
-            setError('Unable to load protected API profile.');
+        } catch (error) {
+            console.error('Profile API Error:', error);
+            setError(getApiErrorMessage(error));
         }
     }
 
@@ -30,7 +31,7 @@ export default function ProfilePage<ProfileResponse>() {
             <h2>Auth0 user claims from frontend</h2>
             <pre>{JSON.stringify(user, null, 2)}</pre>
 
-            <button type ="button" onClick={loadApiProfile}>Load backend JWT profile</button>
+            <button type="button" onClick={loadApiProfile}>Load backend JWT profile</button>
 
             {error && <p className="error">{error}</p>}
             {apiProfile !== null && <pre>{JSON.stringify(apiProfile, null, 2)}</pre>}

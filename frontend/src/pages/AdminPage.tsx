@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 import { callApi } from '../services/apiClient';
 import type { AdminSummaryResponse } from '../types/api';
+import { getApiErrorMessage } from '../services/ApiError';
 
 export default function AdminPage() {
     const { getAccessTokenSilently } = useAuth0();
@@ -18,9 +19,9 @@ export default function AdminPage() {
             );
 
             setData(response);
-        } catch (err) {
-            console.error('Admin API Error:', err);
-            setError('Access denied or API call failed. Your user may not have read:admin permission.');
+        } catch (error) {
+            console.error('Admin API Error:', error);
+            setError(getApiErrorMessage(error));
         }
     }
 
